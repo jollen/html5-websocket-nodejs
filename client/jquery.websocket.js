@@ -1,16 +1,22 @@
 (function($) {
 var ws;
-
-// Where to show the message
-var content = $('#message');
+var content;
 
 function onWsMessage(message) {
+   //alert(message.data);
+
    var json = JSON.parse(message.data);
 
    if (json.type === 'message') {
-   	content.append('<p>' + json.data.message + '</p>');
+   	content.prepend('<p>' + json.data.message + '</p>');
    }
 }
+
+$.fn.receiveWebSocket = function () {
+     content = this;
+
+     ws.onmessage = onWsMessage;
+};
 
 $.fn.sendMessage = function () {
 	$(this).click(function() {
@@ -28,8 +34,6 @@ $.fn.createWebSocket = function () {
 	$(this).append("<h2>Done</h2>");
      };
 
-     ws.onmessage = onWsMessage;
-
      ws.onclose = function()
      { 
         // websocket is closed.
@@ -46,4 +50,4 @@ $.fn.createWebSocket = function () {
   }
 };
 
-})(jQuery);
+})($);
