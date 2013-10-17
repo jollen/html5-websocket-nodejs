@@ -5,6 +5,6 @@ var httpServer = http.createServer(function (req, res) {
   res.end('<h1>Hello World</h1>\n');
 });
 
-httpServer.listen(1234);
+httpServer.listen(8080);
 
-console.log('Server running at http://127.0.0.1:1234/');
+console.log('Server running at http://127.0.0.1:8080/');

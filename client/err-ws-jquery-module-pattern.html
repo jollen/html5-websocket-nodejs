@@ -5,39 +5,31 @@
 <body>
 <div id="message"></div>
 
-<script type="text/javascript">
+<script type="text/javascript">  
 (function($) {
 $.fn.createWebSocket = function () {
-
-  // This 'this' is '#message' object according to this sample
-  var div = this;
-
   if ("WebSocket" in window)
   {
      alert("WebSocket is supported by your Browser!");
      // Let us open a web socket
-     var ws = new WebSocket("ws://localhost:8888/start");
+     var ws = new WebSocket("ws://localhost:8080/start");
      ws.onopen = function()
      {
         // Web Socket is connected, send data using send()
-        // eg, ws.send("Message to send");
+        ws.send("Message to send");
      };
-     ws.onmessage = function (evt)
-     {
+     ws.onmessage = function (evt) 
+     { 
         var received_msg = evt.data;
-        div.html(received_msg);
+        this.html(received_msg);
      };
      ws.onclose = function()
-     {
+     { 
         // websocket is closed.
-
-        // 'this' here is [Object WebSocket]
-        div.html("<h1>onclose</h1>");
      };
      ws.onerror = function()
-     {
-        // 'this' here is [Object WebSocket]
-        div.html("<h1>onerror</h1>");
+     { 
+        this.html("<h1>error</h1>");
      };
   }
   else

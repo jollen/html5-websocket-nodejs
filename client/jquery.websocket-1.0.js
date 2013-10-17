@@ -14,10 +14,10 @@ function onWsMessage(message) {
    }
 }
 
-$.fn.sendMessage = function () {
-	$(this).click(function() {
-    	ws.send("[message]");
-	});
+$.fn.receiveWebSocket = function () {
+     content = this;
+
+     ws.onmessage = onWsMessage;
 };
 
 $.fn.createWebSocket = function () {
@@ -27,8 +27,10 @@ $.fn.createWebSocket = function () {
      ws = new WebSocket("ws://svn.moko365.com:8080/start", ['echo-protocol']);
      ws.onopen = function()
      {
-	$(this).append("<h2>Done</h2>");
+	     div.append("<h2>Done</h2>");
      };
+
+     ws.onmessage = onWsMessage;
 
      ws.onclose = function()
      { 
@@ -36,11 +38,9 @@ $.fn.createWebSocket = function () {
      };
      ws.onerror = function()
      { 
-        $(this).html("<h1>error</h1>");
+        div.html("<h1>error</h1>");
      };
-  }
-  else
-  {
+  } else {
      // The browser doesn't support WebSocket
      alert("WebSocket NOT supported by your Browser!");
   }

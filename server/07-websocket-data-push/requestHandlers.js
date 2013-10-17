@@ -33,7 +33,7 @@ function send(response, query, clients) {
 
     // Data push to all clients
     for (var i = 0; i < clients.length; i++) {
-  	clients[i].sendUTF(json);
+      	clients[i].sendUTF(json);
     }
 }
 

@@ -16,8 +16,8 @@ function start(route, handlers) {
     response.end();
   }
 
-  var server = http.createServer(onRequest).listen(8888, function() {
-     console.log("Server has started and is listening on port 8888.");
+  var server = http.createServer(onRequest).listen(8080, function() {
+     console.log("Server has started and is listening on port 8080.");
   });
 
   wsServer = new WebSocketServer({
