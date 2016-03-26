@@ -30,7 +30,10 @@ function start(route, handlers) {
 
   function onWsConnMessage(message) {
     if (message.type == 'utf8') {
-      console.log('Received message: ' + message.utf8Data);
+      // Data push to all clients
+      for (var i = 0; i < clients.length; i++) {
+          clients[i].sendUTF(message.utf8Data);
+      }
     } else if (message.type == 'binary') {
       console.log('Received binary data.');
     }
@@ -41,7 +44,7 @@ function start(route, handlers) {
   }
 
   function onWsRequest(request) {
-    var connection = request.accept('echo-protocol', request.origin);
+    var connection = request.accept('', request.origin);
     console.log("WebSocket connection accepted.");
 
     // Save clients (unlimited clients)
