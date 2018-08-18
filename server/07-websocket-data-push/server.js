@@ -1,6 +1,7 @@
 var http = require("http");
 var url = require("url");
 var WebSocketServer = require('websocket').server;
+var crypto = require('crypto');
 
 // Connected WebSocket clients
 var clients = [];
@@ -14,7 +15,11 @@ function start(route, handlers) {
 
     route(pathname, handlers, response, query, clients);
 
-    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.writeHead(200, {
+      "Content-Type": "text/plain",
+      "Access-Control-Allow-Origin": "*"
+    });
+
     response.write("Hello World");
     response.end();
   }
@@ -44,7 +49,7 @@ function start(route, handlers) {
   }
 
   function onWsRequest(request) {
-    var connection = request.accept('', request.origin);
+    var connection = request.accept('echo-protocol', request.origin);
     console.log("WebSocket connection accepted.");
 
     // Save clients (unlimited clients)

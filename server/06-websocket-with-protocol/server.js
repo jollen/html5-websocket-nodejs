@@ -2,6 +2,8 @@ var http = require("http");
 var url = require("url");
 var WebSocketServer = require('websocket').server;
 
+var clients = [];
+
 function start(route, handlers) {
   function onRequest(request, response) {
     var pathname = url.parse(request.url).pathname;
@@ -25,14 +27,6 @@ function start(route, handlers) {
     autoAcceptConnections: false
   });
 
-  function onWsConnMessage(message) {
-    if (message.type == 'utf8') {
-      console.log('Received message: ' + message.utf8Data);
-    } else if (message.type == 'binary') {
-      console.log('Received binary data.');
-    }
-  }
-
   function onWsConnClose(reasonCode, description) {
     console.log(' Peer disconnected with reason: ' + reasonCode);
   }
@@ -41,7 +35,8 @@ function start(route, handlers) {
     var connection = request.accept('echo-protocol', request.origin);
     console.log("WebSocket connection accepted.");
 
-    connection.on('message', onWsConnMessage);
+    clients.push(connection);
+
     connection.on('close', onWsConnClose);
   }
 
